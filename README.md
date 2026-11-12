@@ -2,7 +2,7 @@
 
 **Turn any research field into an interactive citation network. Ask it questions, inspect papers, and write a literature review from the papers you select. It runs on your own computer, with no API keys and no cost.**
 
-![Literature Graph overview](lit-graph-overview.png)
+![Literature Graph overview](Literature_small_grpah.png)
 
 Enter a topic. The app builds a citation graph from [OpenAlex](https://openalex.org): each dot is a paper, each line is a citation, and each color is a research cluster. The language model runs locally through [Ollama](https://ollama.com).
 
@@ -57,7 +57,7 @@ How the graph is made:
 
 ## 2. Explore the graph
 
-![Graph overview](lit-graph-overview.png)
+![Graph overview](Literature_small_grpah.png)
 
 - **Scroll** to zoom, **drag empty space** to pan, **drag a node** to move it.
 - **Click** a node to open its details. **Shift-click** to add it to the review basket (selected nodes get an orange ring).
@@ -85,15 +85,15 @@ Questions are answered by **graph algorithms (NetworkX), not by the language mod
 
 ### Example: timeline of the clusters
 
-![Timeline of the clusters](lit-graph-timeline.png)
+![Timeline of the clusters](Time_line_of_each_cluster.png)
 
-For *knowledge graph completion*, "Timeline of the clusters" ran the `timeline` tool and drew papers per year for each large cluster, from 2011 to 2025: cluster 1 (*relational, network, convolutional, attention*, 35 papers), cluster 2 (*embedding, learning, models, relation*, 31 papers) and cluster 3 (*temporal, tucker, tensor, factorization*, 11 papers). The bars make it easy to see when each line of work grew.
+For *knowledge graph completion*, "Timeline of the clusters" ran the `timeline` tool and drew papers per year for each large cluster, from 2011 to 2025: cluster 1 (*relational, network, convolutional, attention*, 35 papers), cluster 2 (*embedding, learning, models, relation*, 31 papers) and cluster 3 (*temporal, tucker, tensor, factorization*, 11 papers). The bars show when each line of work grew.
 
 ### Example: where to start reading
 
-![Where should I start reading](lit-graph-reading.png)
+![Where should I start reading](where_should_i_start.png)
 
-For the same graph, the ranking of influential papers (PageRank inside the graph, core topic papers only) put these on top:
+For the same graph, the influence ranking (PageRank inside the graph, core topic papers only) put these on top:
 
 1. *Learning Entity and Relation Embeddings for Knowledge Graph Completion* (2015, 3,850 citations)
 2. *A Re-evaluation of Knowledge Graph Completion Methods* (2020)
@@ -101,11 +101,11 @@ For the same graph, the ranking of influential papers (PageRank inside the graph
 4. *TuckER: Tensor Factorization for Knowledge Graph Completion* (2019)
 5. *Temporal Knowledge Graph Completion: A Survey* (2023)
 
-**An honest note:** in this run, Agent mode chose `top_papers` for "Where should I start reading?" instead of the `reading_list` tool. The result is still useful, but it shows that a 3B model can pick a neighbouring tool. Fast mode routes this question to `reading_list` by rule. The evaluation below measures this.
+**An honest note:** in this run, Agent mode chose `top_papers` for "Where should I start reading?" instead of the `reading_list` tool. The result is still useful, but it shows that a 3B model can pick a neighbouring tool. Fast mode routes this question to `reading_list` by rule.
 
 ## 4. Inspect any paper
 
-![Paper details](lit-graph-details.png)
+![Paper details](Main_cluster.png)
 
 Click a node to open the **Paper details** box. The data comes live from OpenAlex: title, authors, venue, publication date, citation count, DOI, cluster, abstract, BibTeX, and a PDF link when one is open access. The papers connected to the selected one are highlighted on the graph.
 
@@ -114,7 +114,7 @@ Click a node to open the **Paper details** box. The data comes live from OpenAle
 - **Pattern-based (instant).** Known dataset names (for example FB15k-237, WN18RR, DrugBank, KIBA), metric names (accuracy, AUC, F1, MRR, Hits@k and others), and abstract sentences that pair a metric with a number. The supporting sentence is always shown.
 - **Extract with AI (button).** The local model returns method, datasets and metrics and must give a **word-for-word quote** for each. The app checks that the quote really appears in the abstract and marks each item **verified** or **unverified**. Ignore the unverified ones.
 
-**When there is nothing to extract, the box says so.** The screenshot shows *Support-Vector Networks* (Cortes and Vapnik, 1995, 62,322 citations), where OpenAlex has no abstract, so the panel reports that nothing can be extracted. Other papers, such as *Adam*, have an abstract that names no dataset or score, and the panel reports "none named in the abstract". The tool prefers an honest empty result to a guess. Per-dataset scores and tables live in the full text, which this panel does not read.
+**When there is nothing to extract, the box says so.** For example, *Support-Vector Networks* (Cortes and Vapnik, 1995, 62,322 citations) has no abstract in OpenAlex, so the panel reports that nothing can be extracted. Other papers, such as *Adam*, have an abstract that names no dataset or score, and the panel reports "none named in the abstract". The tool prefers an honest empty result to a guess. Per-dataset scores and tables live in the full text, which this panel does not read.
 
 ## 5. Select papers and write a literature review
 
@@ -131,10 +131,6 @@ Click **Write review** and choose a themed review (about 300 words) or a short s
 - The **reference list is built from real OpenAlex data**, not written by the model, so it cannot contain invented papers.
 - Citation numbers that do not exist are **flagged**, papers never cited are listed, and papers with no abstract get a warning.
 - Click a citation to jump to its reference. Copy the text, references or BibTeX, or download everything as Markdown.
-
-<!-- Add a screenshot of a finished review, then remove these comment markers:
-![Literature review](lit-graph-review.png)
--->
 
 ## How it works
 
@@ -170,8 +166,8 @@ selected papers --> abstracts --> LLM writes the review --> Python builds the re
 **Requirements:** Python 3.9+ and [Ollama](https://ollama.com/download).
 
 ```bash
-git clone https://github.com/hajigul/ResearchDesk.git
-cd ResearchDesk
+git clone https://github.com/hajigul/Literature_Graph.git
+cd Literature_Graph
 
 python3 -m venv agent-env
 source agent-env/bin/activate        # Windows: agent-env\Scripts\activate
@@ -223,7 +219,7 @@ It reports:
 ## Project structure
 
 ```
-ResearchDesk/
+Literature_Graph/
 ├── pro_server.py      # entry point: ResearchDesk plus the Literature Graph tab
 ├── ext_00_core.js     # helper that adds a tab to the sidebar
 ├── ext_graph.js       # Literature Graph front end: canvas, details, basket, review
@@ -234,6 +230,7 @@ ResearchDesk/
 ├── suite_server.py, suite.html            # ResearchDesk base app
 ├── tools.py, config.py                    # OpenAlex/arXiv access, settings
 ├── agent.py, related_work.py, citecheck.py, thesis_qa.py   # the other four tools
+├── requirements.txt
 └── *.png              # screenshots
 ```
 
@@ -252,7 +249,7 @@ The Literature Graph is one tab of **ResearchDesk**, a private research assistan
 
 ## Author
 
-**Haji Gul**, PhD candidate (AI), Universiti Brunei Darussalam.
+**Haji Gul**, PhD (AI), Universiti Brunei Darussalam.
 Research interests: knowledge graph completion, link prediction, LLM-augmented graph reasoning.
 
 GitHub: [@hajigul](https://github.com/hajigul)
